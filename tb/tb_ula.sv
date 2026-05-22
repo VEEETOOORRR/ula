@@ -1,5 +1,7 @@
 `timescale 1ns/1ps
 
+import enums::*;
+
 module tb_ula;
 
     parameter WIDTH = 8;
@@ -12,16 +14,6 @@ module tb_ula;
     logic [WIDTH-1:0] result;
 
     // =========================
-    // Opcodes locais do TB
-    // =========================
-    typedef enum logic [1:0] {
-        NOP  = 2'b00,
-        ADD  = 2'b01,
-        SUB  = 2'b10,
-        MULT = 2'b11
-    } operation_t;
-
-    // =========================
     // DUT
     // =========================
     ula #(
@@ -32,6 +24,14 @@ module tb_ula;
         .op(op),
         .result(result)
     );
+
+    // Geração do dump FSDB
+    // 
+    initial begin
+        $fsdbDumpfile("waves.fsdb");
+        $fsdbDumpvars(0, tb_ula);
+    end
+
 
     initial begin
 
